@@ -12,7 +12,7 @@ function Article (rawDataObj) {
 }
 
 Article.prototype.toHtml = function() {
-  // TODO: Use Handlebars to render your articles. Get your template from the DOM and "compile" your template with Handlebars.
+  // DONE: Use Handlebars to render your articles. Get your template from the DOM and "compile" your template with Handlebars.
 
   // REVIEW: If your template will use properties that aren't on the object yet, add them.
   // Since your template can't hold any JS logic, we need to execute the logic here.
@@ -21,8 +21,10 @@ Article.prototype.toHtml = function() {
   this.daysAgo = parseInt((new Date() - new Date(this.publishedOn))/60/60/24/1000);
 
 
-  this.publishStatus = this.publishedOn ? `published ${this.daysAgo} days ago` : '(draft)';
+  this.publishStatus = this.publishedOn ? `, ${this.daysAgo} days ago` : '(draft)';
 
+  let source   = document.getElementById('article-template').innerHTML;
+  let template = Handlebars.compile(source);
   // REVIEW: The ternary operator above accomplishes this same logic.
   // if(this.publishedOn) {
   //   this.publishStatus = `published ${this.daysAgo} days ago`;
@@ -30,12 +32,13 @@ Article.prototype.toHtml = function() {
   //   this.publishStatus = '(draft)';
   // }
 
-  // TODO: Use the method that Handlebars gave you to return your filled-in html template for THIS article.
+  // DONE: Use the method that Handlebars gave you to return your filled-in html template for THIS article.
+  return template(this);
 
 };
 
 // COMMENT: Why are there parentheses around "(a,b)" in the .sort() method, but not around the "articleObject" or "article" arguments in the .forEach() methods?
-// PUT YOUR RESPONSE HERE
+// The reason there are parentheses around (a,b) is because there is more than one parameter being passed. articleObject is one parameter so it does not need the parentheses but they can be added if you like.
 rawData.sort((a,b) => {
   return (new Date(b.publishedOn)) - (new Date(a.publishedOn));
 });
